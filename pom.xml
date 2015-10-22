@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>baiduyun</groupId>
-	<artifactId>baiduyun</artifactId>
+	<groupId>aliyun</groupId>
+	<artifactId>aliyun</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>baiduyun Maven Webapp</name>
+	<name>aliyun Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -20,28 +20,13 @@
 			<version>1.2.17</version>
 		</dependency>
 
-		<!-- baiduyun start -->
+		<!-- aliyun start -->
 		<dependency>
-			<groupId>com.baidubce</groupId>
-			<artifactId>bce-java-sdk</artifactId>
-			<version>${bce-java-sdk.version}</version>
-			<!-- 若无需百度云的日志，则需添加以下exclusions -->
-			<exclusions>
-				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>logback-classic</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>logback-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.aliyun.oss</groupId>
+			<artifactId>aliyun-sdk-oss</artifactId>
+			<version>2.0.6</version>
 		</dependency>
-		<!-- baiduyun end -->
+		<!-- aliyun end -->
 
 		<!-- jersey base start -->
 		<dependency>
@@ -212,20 +197,17 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>baiduyun</finalName>
-		<!-- <plugins>
+		<finalName>aliyun</finalName>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-		</plugins> -->
+		</plugins>
 	</build>
-	<properties>
-		<bce-java-sdk.version>0.8.9</bce-java-sdk.version>
-	</properties>
 </project>

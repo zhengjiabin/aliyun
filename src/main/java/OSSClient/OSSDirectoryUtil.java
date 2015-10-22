@@ -1,27 +1,28 @@
-package bosClient;
+package OSSClient;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import org.springframework.util.StringUtils;
 
-import com.baidubce.services.bos.BosClient;
+import com.aliyun.oss.internal.OSSConstants;
 
-public class BosDirectoryUtil {
-	private static final String defaultEndpoint = "http://bj.bcebos.com";
+public class OSSDirectoryUtil {
+	private static final String defaultEndpoint = OSSConstants.DEFAULT_OSS_ENDPOINT;
+
 	private static Properties prop;
 
 	static {
 		prop = new Properties();
 		try {
-			prop.load(BosClientUtil.class.getResourceAsStream("/baiduBos.properties"));
+			prop.load(OSSDirectoryUtil.class.getResourceAsStream("/aliyunOSS.properties"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * »ñÈ¡bucketÏÂµÄÂ·¾¶
+	 * è·å–bucketä¸‹çš„è·¯å¾„
 	 * 
 	 * @param bucketName
 	 * @param filePath
@@ -41,7 +42,7 @@ public class BosDirectoryUtil {
 	}
 
 	/**
-	 * »ñÈ¡ÎÄ¼şÃûºó×º
+	 * è·å–æ–‡ä»¶ååç¼€
 	 * 
 	 * @param fileAbsolutePath
 	 */
@@ -56,7 +57,7 @@ public class BosDirectoryUtil {
 	}
 
 	/**
-	 * ÎÄ¼şÂ·¾¶¹æ·¶»¯
+	 * æ–‡ä»¶è·¯å¾„è§„èŒƒåŒ–
 	 * 
 	 * @param directory
 	 * @return
@@ -72,14 +73,14 @@ public class BosDirectoryUtil {
 
 	/**
 	 * <pre>
-	 * »ñÈ¡ÉÏ´«Â·¾¶
-	 * ÈôÎ´°ó¶¨ÓòÃû£ºÔò·ÃÎÊÂ·¾¶£ºhttp://bj.bcebos.com/v1/binbinpictures/photo/test.png
-	 * £¨bucketName£ºbinbinpictures,directoryUnderBucket£ºphoto/test.png£©
+	 * è·å–ä¸Šä¼ è·¯å¾„
+	 * è‹¥æœªç»‘å®šåŸŸåï¼šåˆ™è®¿é—®è·¯å¾„ï¼šhttp://bj.bcebos.com/v1/binbinpictures/photo/test.png
+	 * ï¼ˆbucketNameï¼šbinbinpictures,directoryUnderBucketï¼šphoto/test.pngï¼‰
 	 * 
-	 * Èô°ó¶¨ÓòÃû£ºÔò·ÃÎÊÂ·¾¶£ºhttp://binbinpictures.bj.bcebos.com/photo/test.png
+	 * è‹¥ç»‘å®šåŸŸåï¼šåˆ™è®¿é—®è·¯å¾„ï¼šhttp://binbinpictures.bj.bcebos.com/photo/test.png
 	 * </pre>
 	 */
-	public static String getBosDirectory(String bucketName, String directoryUnderBucket) {
+	public static String getDirectory(String bucketName, String directoryUnderBucket) {
 		if (StringUtils.isEmpty(bucketName) || StringUtils.isEmpty(directoryUnderBucket)) {
 			return null;
 		}
@@ -87,33 +88,31 @@ public class BosDirectoryUtil {
 		String setEndpoint = prop.getProperty("setEndpoint");
 
 		if (Boolean.parseBoolean(setEndpoint)) {
-			return getBosDirectoryByEndpoint(bucketName, directoryUnderBucket);
+			return getDirectoryByEndpoint(bucketName, directoryUnderBucket);
 		} else {
-			return getBosDirectoryByDefalutEndpoint(bucketName, directoryUnderBucket);
+			return getDirectoryByDefalutEndpoint(bucketName, directoryUnderBucket);
 		}
 	}
 
-	private static String getBosDirectoryByEndpoint(String bucketName, String directoryUnderBucket) {
+	private static String getDirectoryByEndpoint(String bucketName, String directoryUnderBucket) {
 		String ENDPOINT = prop.getProperty("ENDPOINT");
 		if (defaultEndpoint.equals(ENDPOINT)) {
-			return getBosDirectoryByDefalutEndpoint(bucketName, directoryUnderBucket);
+			return getDirectoryByDefalutEndpoint(bucketName, directoryUnderBucket);
 		} else {
-			return getBosDirectoryBySpecialEndpoint(bucketName, directoryUnderBucket);
+			return getDirectoryBySpecialEndpoint(bucketName, directoryUnderBucket);
 		}
 	}
 
 	/**
-	 * »ñÈ¡Ö¸¶¨ÓòÃûµÄ·ÃÎÊÂ·¾¶
+	 * è·å–æŒ‡å®šåŸŸåçš„è®¿é—®è·¯å¾„
 	 * 
 	 * @param bucketName
 	 * @param directoryUnderBucket
 	 * @return
 	 */
-	private static String getBosDirectoryBySpecialEndpoint(String bucketName, String directoryUnderBucket) {
+	private static String getDirectoryBySpecialEndpoint(String bucketName, String directoryUnderBucket) {
 		String ENDPOINT = prop.getProperty("ENDPOINT");
 		StringBuffer url = new StringBuffer(ENDPOINT);
-		url.append("/");
-		url.append(BosClient.URL_PREFIX);
 		url.append("/");
 		url.append(bucketName);
 		url.append("/");
@@ -123,16 +122,14 @@ public class BosDirectoryUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ä¬ÈÏµÄ·ÃÎÊÂ·¾¶
+	 * è·å–é»˜è®¤çš„è®¿é—®è·¯å¾„
 	 * 
 	 * @param bucketName
 	 * @param directoryUnderBucket
 	 * @return
 	 */
-	private static String getBosDirectoryByDefalutEndpoint(String bucketName, String directoryUnderBucket) {
+	private static String getDirectoryByDefalutEndpoint(String bucketName, String directoryUnderBucket) {
 		StringBuffer url = new StringBuffer(defaultEndpoint);
-		url.append("/");
-		url.append(BosClient.URL_PREFIX);
 		url.append("/");
 		url.append(bucketName);
 		url.append("/");

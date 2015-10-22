@@ -17,7 +17,7 @@ import com.sun.jersey.spi.resource.Singleton;
 
 @Controller
 @Singleton
-//Spring会针对每一个request请求都生成新的Jersey服务类实例，此方法不需要配置Spring RequsetContextListener
+//Spring浼氶拡瀵规瘡涓�涓猺equest璇锋眰閮界敓鎴愭柊鐨凧ersey鏈嶅姟绫诲疄渚嬶紝姝ゆ柟娉曚笉闇�瑕侀厤缃甋pring RequsetContextListener
 @Scope("prototype")
 @Path(value = "/user")
 public class UserResource {
